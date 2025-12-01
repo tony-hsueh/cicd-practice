@@ -5,23 +5,37 @@ on: push
 jobs:
   brew_coffee:
     name: 煮咖啡
+    runs-on: ubuntu-latest
+
   fry_egg:
     name: 炒蛋
+    runs-on: ubuntu-latest
     outputs:
       egg: ${{ steps.fry.outputs.egg }}
     steps:
       - name: 打蛋
+        run: echo "打4顆蛋"
+
       - name: 下油
+        run: echo "倒入適當的油到鍋內"
+
       - name: 開火
+        run: echo "開小火，等鍋子熱"
+
       - name: 煎蛋
         id: fry
-        run: echo "egg=炒好的蛋" >> "$GITHUB_OUTPUT"
+        run: echo "將蛋倒入鍋內，將蛋煎熟"
+
   toast_bread:
     name: 烤麵包
+    runs-on: ubuntu-latest
+
   eat_breakfast:
     needs: [brew_coffee, fry_egg, toast_bread]
     name: 吃早餐
+    runs-on: ubuntu-latest
     env:
       OUTPUTEGG: ${{needs.fry_egg.outputs.egg}}
     steps:
-      - run: echo "$OUTPUTEGG"
+      - name: 輸出蛋
+        run: echo "$OUTPUTEGG"
