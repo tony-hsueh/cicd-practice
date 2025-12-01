@@ -1,0 +1,27 @@
+name: Hello Action
+
+on: push
+
+jobs:
+  brew_coffee:
+    name: 煮咖啡
+  fry_egg:
+    name: 炒蛋
+    outputs:
+      egg: ${{ steps.fry.outputs.egg }}
+    steps:
+      - name: 打蛋
+      - name: 下油
+      - name: 開火
+      - name: 煎蛋
+        id: fry
+        run: echo "egg=炒好的蛋" >> "$GITHUB_OUTPUT"
+  toast_bread:
+    name: 烤麵包
+  eat_breakfast:
+    needs: [brew_coffee, fry_egg, toast_bread]
+    name: 吃早餐
+    env:
+      OUTPUTEGG: ${{needs.fry_egg.outputs.egg}}
+    steps:
+      - run: echo "$OUTPUTEGG"
