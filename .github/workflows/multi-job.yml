@@ -6,6 +6,9 @@ jobs:
   brew_coffee:
     name: 煮咖啡
     runs-on: ubuntu-latest
+    steps:
+      - name: 取出咖啡
+        run: echo "咖啡粉倒入杯中"
 
   fry_egg:
     name: 炒蛋
@@ -29,6 +32,9 @@ jobs:
   toast_bread:
     name: 烤麵包
     runs-on: ubuntu-latest
+    steps:
+      - name: 取出麵包
+        run: echo "拿出 2 片吐司"
 
   eat_breakfast:
     needs: [brew_coffee, fry_egg, toast_bread]
