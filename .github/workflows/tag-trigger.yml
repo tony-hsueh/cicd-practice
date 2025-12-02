@@ -1,0 +1,13 @@
+name: Test Tag Trigger
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+-[a-zA-Z0-9_]*.[0-9]+"
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print message
+        run: echo "🎉 Hello from GitHub Actions!"
