@@ -1,0 +1,45 @@
+name: display all logging methods
+
+on: workflow_dispatch
+
+jobs:
+  logging:
+    name: logging
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo
+        run: |
+          echo "This is a standard output message"
+          echo "This is a standard error message" >&2
+          echo "::warning::This is a warning message"
+          echo "::error::This is an error message"
+          echo "::debug::This is a debug message"
+          echo "::notice::This is a notice message"
+
+      - name: 展示分組效果
+        run: |
+          echo "::group::📦 第一個分組"
+          echo "這裡是分組內容 1"
+          echo "這裡是分組內容 2"
+          echo "這裡是分組內容 3"
+          echo "::endgroup::"
+
+          echo "::group::🧪 第二個分組"
+          echo "這是另一個分組"
+          echo "可以看到內容被摺疊起來"
+          echo "::endgroup::"
+
+          echo "::group::🏗️ 第三個分組"
+          echo "分組可以讓長輸出更整潔"
+          echo "點擊可以展開/收合"
+          echo "::endgroup::"
+
+      - name: core
+        run: |
+          core.info("This is a core info message")
+
+      - name: console
+        run: |
+          console.log("This is a console log message")
+          console.warn("This is a console warning message")
+          console.error("This is a console error message")
