@@ -7,7 +7,7 @@ jobs:
     name: logging
     runs-on: ubuntu-latest
     steps:
-      - name: echo
+      - name: 展示 echo 語法
         run: |
           echo "This is a standard output message"
           echo "This is a standard error message" >&2
@@ -16,7 +16,7 @@ jobs:
           echo "::debug::This is a debug message"
           echo "::notice::This is a notice message"
 
-      - name: 展示分組效果
+      - name: 展示 echo 分組效果
         run: |
           echo "::group::📦 第一個分組"
           echo "這裡是分組內容 1"
@@ -41,6 +41,23 @@ jobs:
             core.info("This is a core.info message");
             core.warning("This is a warning");
             core.error("This is an error");
+            core.notice("Notice 訊息");
+
+      - name: 展示 core 分組效果
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.startGroup("Unit Tests");
+            console.log(unit_output)
+            core.endGroup();
+
+            core.startGroup("Integration Tests");
+            core.error(integration_output)
+            core.endGroup();
+
+            core.startGroup("E2E Tests");
+            console.log(e2e_output)
+            core.endGroup();
 
       - name: 展示 console 語法
         uses: actions/github-script@v7
