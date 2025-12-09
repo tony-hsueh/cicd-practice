@@ -34,12 +34,18 @@ jobs:
           echo "點擊可以展開/收合"
           echo "::endgroup::"
 
-      - name: core
-        run: |
-          core.info("This is a core info message")
+      - name: 展示 core 語法
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.info("This is a core.info message");
+            core.warning("This is a warning");
+            core.error("This is an error");
 
-      - name: console
-        run: |
-          console.log("This is a console log message")
-          console.warn("This is a console warning message")
-          console.error("This is a console error message")
+      - name: 展示 console 語法
+        uses: actions/github-script@v7
+        with:
+          script: |
+            console.log("This is a console log message")
+            console.warn("This is a console warning message")
+            console.error("This is a console error message")
