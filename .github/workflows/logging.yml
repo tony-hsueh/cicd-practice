@@ -47,16 +47,18 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            core.startGroup("Unit Tests");
-            console.log(unit_output)
+            core.startGroup("第一個分組");
+            console.log('a')
+            console.log('b')
+            console.log('c')
             core.endGroup();
 
-            core.startGroup("Integration Tests");
-            core.error(integration_output)
+            core.startGroup("第二個分組");
+            core.error('這是錯誤訊息')
             core.endGroup();
 
-            core.startGroup("E2E Tests");
-            console.log(e2e_output)
+            core.startGroup("第三個分組");
+            console.log('d')
             core.endGroup();
 
       - name: 展示 console 語法
