@@ -36,7 +36,7 @@ jobs:
             echo "$TAG_COMMIT is NOT an ancestor of origin/main"
           fi
 
-      - name: 測試分支才用，根本看不到
+      - name: 測試分支才用，根本
         env:
           TAG_COMMIT: ${{ steps.get_tag_commit.outputs.TAG_COMMIT }}
         run: |
