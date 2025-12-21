@@ -30,8 +30,6 @@ jobs:
         env:
           TAG_COMMIT: ${{ steps.get_tag_commit.outputs.TAG_COMMIT }}
         run: |
-          git merge-base --is-ancestor "$TAG_COMMIT" origin/main
-
           if git merge-base --is-ancestor "$TAG_COMMIT" origin/main; then
             echo "$TAG_COMMIT is an ancestor of origin/main"
           else
