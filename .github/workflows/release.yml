@@ -13,18 +13,26 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Debug release payload
+        run: |
+          echo "${{ toJson(github.event) }}"
+
       - name: 顯示當前的 target_commitish
         run: |
           echo "target_commitish=${{ github.event.target_commitish}}"
           echo "tag=${{ github.event.release.tag_name}}"
           git fetch --all --tags
           TAG_COMMIT=$(git rev-list -n 1 refs/tags/${{ github.event.release.tag_name }})
-          echo "tag commit=$TAG_COMMIT"
+          echo "TAG_COMMIT=$TAG_COMMIT" >> $GITHUB_OUTPUT
 
       - name: 顯示本次 release 的 tag 是否屬於 main 分支
+        env:
+          TAG_COMMIT: ${{ steps.get_tag_commit.outputs.TAG_COMMIT }}
         run: |
           git merge-base --is-ancestor "$TAG_COMMIT" origin/main
 
       - name: 測試分支才用，根本看不到
+        env:
+          TAG_COMMIT: ${{ steps.get_tag_commit.outputs.TAG_COMMIT }}
         run: |
           git merge-base --is-ancestor "$TAG_COMMIT" origin/main
