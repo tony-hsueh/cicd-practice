@@ -18,6 +18,7 @@ jobs:
           echo "${{ toJson(github.event) }}"
 
       - name: 顯示當前的 target_commitish
+        id: get_tag_commit
         run: |
           echo "target_commitish=${{ github.event.release.target_commitish}}"
           echo "tag=${{ github.event.release.tag_name}}"
