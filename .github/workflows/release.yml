@@ -19,7 +19,7 @@ jobs:
 
       - name: 顯示當前的 target_commitish
         run: |
-          echo "target_commitish=${{ github.event.target_commitish}}"
+          echo "target_commitish=${{ github.event.release.target_commitish}}"
           echo "tag=${{ github.event.release.tag_name}}"
           git fetch --all --tags
           TAG_COMMIT=$(git rev-list -n 1 refs/tags/${{ github.event.release.tag_name }})
@@ -30,6 +30,12 @@ jobs:
           TAG_COMMIT: ${{ steps.get_tag_commit.outputs.TAG_COMMIT }}
         run: |
           git merge-base --is-ancestor "$TAG_COMMIT" origin/main
+
+          if git merge-base --is-ancestor "$TAG_COMMIT" origin/main; then
+            echo "$TAG_COMMIT is an ancestor of origin/main"
+          else
+            echo "$TAG_COMMIT is NOT an ancestor of origin/main"
+          fi
 
       - name: 測試分支才用，根本看不到
         env:
