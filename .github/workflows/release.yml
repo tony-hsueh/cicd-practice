@@ -24,3 +24,7 @@ jobs:
       - name: 顯示本次 release 的 tag 是否屬於 main 分支
         run: |
           git merge-base --is-ancestor "$TAG_COMMIT" origin/main
+
+      - name: 測試分支才用，根本看不到
+        run: |
+          git merge-base --is-ancestor "$TAG_COMMIT" origin/main
