@@ -8,4 +8,4 @@ jobs:
     steps:
       - name: Show workflow version
         run: |
-          echo "Workflow version: 1.0-test_a"
+          echo "Workflow version: 1.0-test_a updated version"
