@@ -8,10 +8,7 @@ jobs:
     steps:
       - name: Show workflow version
         run: |
-          echo "Workflow version: 1.0-test_a"
-
-      - name: checkout
-        uses: actions/checkout@v4
+          echo "Workflow version: 1.0-test_a_no_checkout"
 
       - name: Verify code content
         run: |
