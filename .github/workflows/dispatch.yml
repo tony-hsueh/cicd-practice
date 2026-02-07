@@ -15,8 +15,6 @@ jobs:
           echo "================================================"
           echo "📍 Proof: Branch Identifier"
           echo "================================================"
-          cat branch-identifier.txt
-          echo ""
 
           echo "================================================"
           echo "📍 GitHub Context (for reference)"
