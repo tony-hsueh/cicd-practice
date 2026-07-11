@@ -35,9 +35,24 @@ jobs:
         uses: actions/checkout@v4
         # pull_request 事件預設就是 checkout PR head 與 base 的 merge commit
 
-      - name: Show checked-out file content
+      - name: Show checked-out file content (PR head version)
         run: |
           echo "================================================"
-          echo "📍 Checked-out Content Proof"
+          echo "📍 Checked-out Content Proof (default checkout = PR head)"
+          echo "================================================"
+          cat branch-identifier.txt || echo "(找不到 branch-identifier.txt)"
+
+      - name: Checkout base branch code instead
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+        # 對照組: 即使明確指定去 checkout base 分支的程式碼,
+        # secrets 該讀不到還是讀不到,證明關鍵在 secret 是否暴露,
+        # 而不是 checkout 了誰的程式碼
+
+      - name: Show checked-out file content (base branch version)
+        run: |
+          echo "================================================"
+          echo "📍 Checked-out Content Proof (explicit base branch checkout)"
           echo "================================================"
           cat branch-identifier.txt || echo "(找不到 branch-identifier.txt)"
