@@ -31,6 +31,19 @@ jobs:
             echo "✅ MY_SECRET 有值 (長度 ${#MY_SECRET}) -> 這次執行讀得到 secret"
           fi
 
+      - name: Try to read variable
+        env:
+          MY_VAR: ${{ vars.MY_VAR }}
+        run: |
+          echo "================================================"
+          echo "📍 Variable Access"
+          echo "================================================"
+          if [ -z "$MY_VAR" ]; then
+            echo "❌ MY_VAR is EMPTY -> 這次執行讀不到 variable"
+          else
+            echo "✅ MY_VAR = $MY_VAR -> 這次執行讀得到 variable"
+          fi
+
       - name: Checkout base branch (default behavior)
         uses: actions/checkout@v4
         # 注意: pull_request_target 預設 checkout 的是 base 分支 (main)
