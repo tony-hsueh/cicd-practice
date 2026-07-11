@@ -1,0 +1,43 @@
+name: Experiment - pull_request
+
+on:
+  pull_request:
+
+jobs:
+  experiment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show event context
+        run: |
+          echo "================================================"
+          echo "📍 Event Context"
+          echo "================================================"
+          echo "event_name: ${{ github.event_name }}"
+          echo "ref:        ${{ github.ref }}"
+          echo "sha:        ${{ github.sha }}"
+          echo "head_ref:   ${{ github.head_ref }}"   # PR 來源分支
+          echo "base_ref:   ${{ github.base_ref }}"   # PR 目標分支 (main)
+
+      - name: Try to read secret
+        env:
+          MY_SECRET: ${{ secrets.MY_SECRET }}
+        run: |
+          echo "================================================"
+          echo "📍 Secret Access"
+          echo "================================================"
+          if [ -z "$MY_SECRET" ]; then
+            echo "❌ MY_SECRET is EMPTY -> 這次執行讀不到 secret"
+          else
+            echo "✅ MY_SECRET 有值 (長度 ${#MY_SECRET}) -> 這次執行讀得到 secret"
+          fi
+
+      - name: Checkout PR head code
+        uses: actions/checkout@v4
+        # pull_request 事件預設就是 checkout PR head 與 base 的 merge commit
+
+      - name: Show checked-out file content
+        run: |
+          echo "================================================"
+          echo "📍 Checked-out Content Proof"
+          echo "================================================"
+          cat branch-identifier.txt || echo "(找不到 branch-identifier.txt)"

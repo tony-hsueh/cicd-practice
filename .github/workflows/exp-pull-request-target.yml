@@ -1,0 +1,60 @@
+name: Experiment - pull_request_target
+
+on:
+  pull_request_target:
+
+jobs:
+  experiment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show event context
+        run: |
+          echo "================================================"
+          echo "📍 Event Context"
+          echo "================================================"
+          echo "event_name: ${{ github.event_name }}"
+          echo "ref:        ${{ github.ref }}"           # 這裡是 base 分支 (main), 不是 PR 分支
+          echo "sha:        ${{ github.sha }}"           # base 分支的 sha
+          echo "head_ref:   ${{ github.head_ref }}"      # PR 來源分支
+          echo "base_ref:   ${{ github.base_ref }}"      # PR 目標分支 (main)
+
+      - name: Try to read secret
+        env:
+          MY_SECRET: ${{ secrets.MY_SECRET }}
+        run: |
+          echo "================================================"
+          echo "📍 Secret Access"
+          echo "================================================"
+          if [ -z "$MY_SECRET" ]; then
+            echo "❌ MY_SECRET is EMPTY -> 這次執行讀不到 secret"
+          else
+            echo "✅ MY_SECRET 有值 (長度 ${#MY_SECRET}) -> 這次執行讀得到 secret"
+          fi
+
+      - name: Checkout base branch (default behavior)
+        uses: actions/checkout@v4
+        # 注意: pull_request_target 預設 checkout 的是 base 分支 (main)
+        # 並不是 PR 送出的程式碼
+
+      - name: Show checked-out file content (base branch version)
+        run: |
+          echo "================================================"
+          echo "📍 Checked-out Content Proof (default checkout = base branch)"
+          echo "================================================"
+          cat branch-identifier.txt || echo "(找不到 branch-identifier.txt)"
+
+      # ⚠️ 危險示範 (僅供教學對照, 平時不要這樣寫):
+      # 如果額外把 PR head 的程式碼簽出來, 同時又帶著上面讀得到的 secret,
+      # 就等於讓「PR 作者可控的程式碼」拿到了 base repo 的 secret,
+      # 這正是 pull_request_target 最常見的資安地雷 (pwn request)。
+      - name: (Dangerous demo) Checkout PR head code instead
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Show checked-out file content (PR head version)
+        run: |
+          echo "================================================"
+          echo "📍 Checked-out Content Proof (explicit PR head checkout)"
+          echo "================================================"
+          cat branch-identifier.txt || echo "(找不到 branch-identifier.txt)"
