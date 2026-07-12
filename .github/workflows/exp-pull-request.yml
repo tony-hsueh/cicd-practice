@@ -17,6 +17,7 @@ jobs:
           echo "sha:        ${{ github.sha }}"
           echo "head_ref:   ${{ github.head_ref }}"   # PR 來源分支
           echo "base_ref:   ${{ github.base_ref }}"   # PR 目標分支 (main)
+          echo "我是刻意在 forked repo 改的哦，應該被看到"
 
       - name: Try to read secret
         env:
